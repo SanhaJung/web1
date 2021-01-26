@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
+        <meta name="description" content>
+
+        <title>Error Save</title>
+
+        <meta name="author" content>
+        <!-- jquery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+        <!-- 부트스트랩 -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    </head>
+
+    <body>
+
+            <a href="{% url 'index' %}">
+                <img src="{% static 'img/logo.jpg' %}" alt="main page" height="75" width="320">
+            </a>
+
+            
+            <form action="./updateError/" method="POST">{% csrf_token %}
+                
+                <input type="hidden" id="id" name="id" value="{{detail_error.id}}">
+                <div style="padding-left:100px;">
+                    <label class="required">Title:</label>
+                    <br>
+                    <input name="title" type="text" value="{{detail_error.title}}"  style="width:700px;height:20px;font-size:15px;"/>                    
+                    <!-- <p class="required">{{detail_error.title}}</p> -->
+                    <!-- <input type="text" name="title" value={{detail_error.title}} class="vTextField" maxlength="225" id="id_title"> -->
+                </div>
+
+                <div style="padding-left:100px; padding-right:100px;" >
+                    <label class="required" for="id_title">Message:</label>
+                    <br>
+                    <textarea name="message" cols="40" rows="2" style="width:700px;height:25px;font-size:15px;">{{detail_error.message}}</textarea>
+                </div>
+
+                <div style="padding-left:100px; padding-right:100px;">
+                    <label class="required" for="id_title">Code:</label>
+                    <br>
+                    <textarea name="code" cols="10" rows="10" style="width:700px;font-size:15px;">{{detail_error.code}}</textarea>
+                </div>
+
+                <div style="padding-left:100px;" >
+                    <label class="required">Description:</label>
+                    <br>
+                    <textarea name="description" cols="40" rows="10" style="width:700px;height:25px;font-size:15px;">{{detail_error.description}}</textarea>
+                </div>
+        
+           
+            
+            {% if detail_error.status %}
+<!-- -------------------------------------------------------------------------------------------------------- -->
+                <input type="hidden" id="solution_status" name="solution_status" value="1">
+                <div style="padding-left:100px; padding-right:100px;">
+                    <label class="required" for="id_title">Solution code:</label>
+                    <br>
+                    <textarea name="sol_code" cols="10" rows="10" style="width:700px;font-size:15px;">{{detail_solution.solution_code}}</textarea>
+                </div>
+
+                <div style="padding-left:100px;" >
+                    <label class="required">Solution description:</label>
+                    <br>
+                    <textarea name="sol_description" cols="40" rows="10" style="width:700px;height:25px;font-size:15px;">{{detail_solution.solution_description}}</textarea>
+                </div>
+
+<!-- -------------------------------------------------------------------------------------------------------- -->
+                <!-- <div  style="padding-left:100px; padding-right:100px;" >
+                    <label class="required" for="id_title">Solution code:</label>
+
+                    <pre class="prettyprint" class="required" for="id_title">{{detail_solution.solution_code}}</pre>
+                </div>
+                <div style="padding-left:100px;" >
+                    <label class="required" for="id_title">Solution description:</label>
+
+                    <p class="required" for="id_title">{{detail_solution.solution_description}}</p>
+                </div>
+ -->
+<!-- -------------------------------------------------------------------------------------------------------- -->
+                <div style="padding-left:100px;" >
+                    <br>
+                    <button type="submit" class="btn btn-lg btn-success">수정하기</button>
+                    <a href="{% url 'index' %}" class="btn btn-lg btn-info">main으로</a>
+                </div>
+
+
+                {% else %}
+                <input type="hidden" id="solution_status" name="solution_status" value="0">
+                <br>
+                <div style="padding-left:100px;" >
+                    <button type="submit" class="btn btn-lg btn-success">수정하기</button>
+                    <a href="{% url 'logging_solution' detail_error.id %}" class="btn btn-lg btn-info">Solution 기록하기</a>
+                </div>
+            {% endif %}
+        </form>
+    </body>
+</html>
+

@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
+        <meta name="description" content>
+
+        <title>Error Save</title>
+
+        <meta name="author" content>
+        <!-- jquery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+        <!-- 부트스트랩 -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    </head>
+
+    <body>
+      <center>
+
+          <form>
+            <a href="{% url 'index' %}">
+              <img src="{% static 'img/logo.jpg' %}" alt="main page" height="75" width="320">
+            </a>
+            <input id="errorTitle" type="text" placeholder="제목검색 키워드를 입력하세요" style="width:300px;height:50px;font-size:20px;"/>
+            <span>
+                <button type="button" class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </button>
+            </span>
+        </form>
+          
+          <hr/>
+          <!-- <form  method="POST">  {% csrf_token%}
+              <input type="radio" id="all" name="Filter" value="all">
+              <label for="all" style="font-size:20px;padding-right: 25px;">All error</label>
+
+              <input type="radio" id="outstanding" name="Filter" value="outstanding">
+              <label for="outstanding" style="font-size:20px;padding-right: 25px;">Outstanding error</label>
+              
+              <input type="radio" id="resolved" name="Filter" value="resolved">
+              <label for="resolved" style="font-size:20px;padding-right: 15px;">Resolved error</label>
+              
+              <button type="submit" class="btn btn-ms btn-info" value="Serch">Serch</button> -->
+
+          <div class="table-responsive">
+              <table class="table table table-hover">
+                <thead>
+                  <tr>
+                    <th>게시자</th>
+                    <th>Error 제목</th>
+                    <th>Error 메시지</th>
+                    <th>해결여부</th>
+                    <th>상세 페이지</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for error in search_errors%}
+
+                        {% for match in matchs%}
+                            {% if error.id == match.error_id %}
+                                {% for user in users %}
+                                    {% if match.user_id == user.id %}
+
+                                        {% if error.status == False %}
+                                            <tr>
+                                                <td>{{user.user_name}}</td>
+                                                <td>{{error.title}}</td>
+                                                <td>{{error.message}}</td>
+                                                <td style="padding-left: 35px;">X</td>
+                                                <input type="hidden" id="id" name="id" value="{{ error.id }}">
+                                                <td><a href="{% url 'detailError' error.id %}" class="btn btn-success">Detail</a></td>
+                                            </tr>
+                                        {% else %}
+                                            <tr class='info'>
+                                                <td>{{user.user_name}}</td>
+                                                <td>{{error.title}}</td>
+                                                <td>{{error.message}}</td>
+                                                <td style="padding-left: 35px;">O</td>
+                                                <input type="hidden" id="id" name="id" value="{{ error.id }}">
+                                                <td><a href="{% url 'detailError' error.id %}" class="btn btn-success">Detail</a></td>
+                                            </tr>
+                                        {% endif %}
+
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                      
+                    {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          <!-- </form> -->
+
+          <form>
+              <a href="{% url 'index' %}" class="btn btn-lg btn-info">main으로</a>
+          </form>
+        </center>
+    </body>
+</html>
+
