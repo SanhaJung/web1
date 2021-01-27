@@ -37,8 +37,7 @@ def index(request):
             content = {"errors": errors, "matchs": Match.objects.all(), "users": User.objects.all()}
             return render(request, 'error_manage_system/index.html', content)
     else:
-        content = {"messages": ""}
-        return redirect('main_signin', content)
+        return redirect('main_signin')
 
 # def myError(request):
 #     return render(request, 'error_manage_system/my_error.html')
@@ -110,7 +109,6 @@ def update_error(request, e_id):
     update_E.description = errorDescription
     update_E.save()
 
-    
     solution_status = request.POST['solution_status']
     print(solution_status)
     if solution_status == "1":
